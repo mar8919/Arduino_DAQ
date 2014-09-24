@@ -13,7 +13,8 @@ AJAX_SERVER:
 	
 www:
 
- - This folder must be placed in the root directory of the SD card used in the Yun.  It contains the HTML file for the website and related files
+ - Folder must be placed in the root directory of the SD card used in the Yun
+ - Contains files for the website interface
 		
 In order to access the website your computer must be connected to the same local network as the Arduino (either WiFi or ethernet).
 The default URL for the website is:	http://arduino.local/sd/
