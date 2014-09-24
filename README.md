@@ -6,7 +6,7 @@ user interface via a web browser.
 
 AJAX_SERVER:
 
-- Contains the Arduino sketch
+- Folder containing the Arduino sketch
 - Reads data from analog inputs
 - Control digital outputs
 - Responds to client REST requests used to control the Arduino
