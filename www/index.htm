@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style type="text/css">
+		h1 {color:black;}
+		p {color:black;}
+		body {font-family:arial}
+	</style>
+	<script type="text/javascript">
+		function write_request(Pin, Value)
+		{
+			server = "/arduino/digital/" + Pin + "/" + Value;
+			rest_request = new XMLHttpRequest();
+			rest_request.onreadystatechange = write_response;
+			rest_request.open("GET", server, true);
+			rest_request.send(null);
+		}
+		
+		function write_response()
+		{
+			if ((rest_request.readyState == 4) && (rest_request.status == 200))
+			{
+				response = rest_request.responseText;
+				parse = response.split(",");
+				PinNum = parse[0];
+				PinState = parse[1];
+				PinId = "pin" + PinNum;
+				ImageId = "image" + PinNum;
+				if(PinState == 0)
+				{
+					PinState = "1"
+					button = "off.png"
+				}
+				else
+				{
+					PinState = "0"
+					button = "on.png"
+				}
+				document.getElementById(PinId).value = PinState;
+				document.getElementById(ImageId).src = button;
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+	<h1>Command and Data Handling Interface</h1>
+	<p><abbr title="Rocket of Our Fearless Leader">ROFL</abbr> would be controlled here (currently just links to google):</p>
+	<br>
+	
+	<table>
+		<tr>
+			<td><b>Pin 7 </b></td>
+			<td><b>Pin 8 </b></td>
+		</tr>
+		<tr>
+			<td>
+				<input type="hidden" name ="pin" value="1" id="pin7" />
+				<img src="off.png" id="image7"
+				onclick="write_request(7, document.getElementById('pin7').value);"
+				/>
+			</td>
+			<td>
+				<input type="hidden" name ="pin" value="1" id="pin8" />
+				<img src="off.png" id="image8"
+				onclick="write_request(8, document.getElementById('pin8').value);"
+				/>
+			</td>
+		</tr>
+	</table>
+	
+	<br>
+	<br>
+	<a href="http://arduino.local/sd/output.csv" download="output.csv">
+		<img src="download.png"
+		onmouseover="this.src='download_over.png'"
+		onmouseout="this.src='download.png'"
+		>
+	<br>
+
+</body>
+</html>
