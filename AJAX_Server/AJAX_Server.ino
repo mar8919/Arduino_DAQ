@@ -12,13 +12,11 @@ void setup() {
   Bridge.begin();
   server.listenOnLocalhost();
   server.begin();
-
   
   // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
   pinMode(7, OUTPUT);
   pinMode(8, OUTPUT);
-  
   
   // initialize file
   FileSystem.begin();
@@ -70,26 +68,35 @@ void process(YunClient client)
   if(command == "digital")
   {
     int pin = client.parseInt();
+    int value;
     if (client.read() == '/')
     {
-      int value = client.parseInt();
+      value = client.parseInt();
       digitalWrite(pin, value);
+    }
+    else
+    {
+      value = digitalRead(pin);
       
-      //server response
-      client.print(pin);
-      client.print(",");
-      client.println(value);
       
+      // record pin request
       File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
       if(output)
       {
-        output.println( String(millis()) + ",Pin " + String(pin) + " set to " + String(value) );
+        //output.println( String(millis()) + ",Pin " + String(pin) + " set to " + String(value) );
+        output.println( String(millis()) + ",Pin " + String(pin) + " is currently " + String(value) );
         output.close();
       }
       else
       {
         digitalWrite(ledPin, HIGH);  //LED 13 turns on to indicate file error
       }
+      
+      
     }
+    //server response
+    client.print(pin);
+    client.print(",");
+    client.println(value);
   }
 }

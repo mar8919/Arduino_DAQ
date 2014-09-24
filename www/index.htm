@@ -8,54 +8,108 @@
 		body {font-family:arial}
 	</style>
 	<script type="text/javascript">
+		var digital_write;
+		var digital_read;
+		var server;
+	
+		//Set state of a pin
 		function write_request(Pin, Value)
 		{
 			server = "/arduino/digital/" + Pin + "/" + Value;
-			rest_request = new XMLHttpRequest();
-			rest_request.onreadystatechange = write_response;
-			rest_request.open("GET", server, true);
-			rest_request.send(null);
+			digital_write = new XMLHttpRequest();
+			digital_write.onreadystatechange = write_ready;
+			digital_write.open("GET", server, true);
+			digital_write.send(null);
 		}
 		
-		function write_response()
+		//Check if response is ready
+		function write_ready()
 		{
-			if ((rest_request.readyState == 4) && (rest_request.status == 200))
+			if ((digital_write.readyState == 4) && (digital_write.status == 200))
 			{
-				response = rest_request.responseText;
-				parse = response.split(",");
-				PinNum = parse[0];
-				PinState = parse[1];
-				PinId = "pin" + PinNum;
-				ImageId = "image" + PinNum;
-				if(PinState == 0)
-				{
-					PinState = "1"
-					button = "off.png"
-				}
-				else
-				{
-					PinState = "0"
-					button = "on.png"
-				}
-				document.getElementById(PinId).value = PinState;
-				document.getElementById(ImageId).src = button;
+				var write_string = digital_write.responseText;
+				update_buttons(write_string);
 			}
+		}
+		
+		
+		
+		//Get state of a pin
+		function read_request(Pin)
+		{
+			server = "/arduino/digital/" + Pin;
+			digital_read = new XMLHttpRequest();
+			//digital_read.onreadystatechange = read_ready();
+			digital_read.open("GET", server, false);
+			digital_read.send(null);
+			
+			//for async = false
+			var read_string = digital_read.responseText;
+			update_buttons(read_string);
+		}
+		
+		//Check if response is ready
+		function read_ready()
+		{
+			if ((digital_read.readyState == 4) && (digital_read.status == 200))
+			{
+				var read_string = digital_read.responseText;
+				update_buttons(read_string);
+			}
+		}
+		
+		//Update buttons after response from Arduino
+		function update_buttons(response)
+		{	
+			var parse = response.split(",");
+			var PinNum = parse[0];
+			var PinState = parse[1];
+			var PinId = "pin" + PinNum;
+			var ImageId = "image" + PinNum;
+			if(PinState == 0)
+			{
+				PinState = "1";
+				button = "off.png";
+			}
+			else
+			{
+				PinState = "0";
+				button = "on.png";
+			}
+			document.getElementById(PinId).value = PinState;
+			document.getElementById(ImageId).src = button;
+		}
+		
+		function check_states()
+		{
+			read_request(7);
+			read_request(8);
+			read_request(13);
 		}
 	</script>
 </head>
 
-<body>
+<body onload = "check_states();">
 
-	<h1>Command and Data Handling Interface</h1>
-	<p><abbr title="Rocket of Our Fearless Leader">ROFL</abbr> would be controlled here (currently just links to google):</p>
+	<h1>Data Acquisition</h1>
+	<p>
+		TODO: Add instructions here
+	</p>
 	<br>
 	
 	<table>
 		<tr>
+			<td><b>Pin 13 </b></td>
 			<td><b>Pin 7 </b></td>
 			<td><b>Pin 8 </b></td>
 		</tr>
 		<tr>
+			<td>
+				<input type="hidden" name ="pin" value="1" id="pin13" />
+				<img src="off.png" id="image13"
+				onclick="write_request(13, document.getElementById('pin13').value);"
+				/>
+			</td>
 			<td>
 				<input type="hidden" name ="pin" value="1" id="pin7" />
 				<img src="off.png" id="image7"
@@ -69,9 +123,33 @@
 				/>
 			</td>
 		</tr>
+		<tr>
+			<td>
+				<button type="button"
+				onclick="read_request(13);">
+				Check State
+				</button>	
+			</td>
+			<td>
+				<button type="button"
+				onclick="read_request(7);">
+				Check State
+				</button>	
+			</td>
+			<td>
+				<button type="button"
+				onclick="read_request(8);">
+				Check State
+				</button>	
+			</td>
+		<tr>
 	</table>
 	
 	<br>
+	<button type="button"
+	onclick="check_states();">
+		Check States
+	</button>
 	<br>
 	<a href="http://arduino.local/sd/output.csv" download="output.csv">
 		<img src="download.png"
@@ -79,6 +157,5 @@
 		onmouseout="this.src='download.png'"
 		>
 	<br>
-
 </body>
 </html>
