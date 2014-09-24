@@ -4,15 +4,15 @@ The files in this repository are being used for a data aquisition system running
 seperate parts.  The first is an Arduino sketch uploaded to the Yun's processor.  The second is an HTML website which displays a
 user interface via a web browser.
 
-	AJAX_SERVER:
-		This folder contains the Arduino sketch which will:
-			- Read data from analog inputs
-			- Control digital outputs (intended to control solenoids and a rocket ignition system)
-			- Respond to client REST requests used to control the Arduino
-			
-	www:
-		This folder must be placed in the root directory of the SD card used in the Yun.  It contains the HTML file for the website
-		and related files
+AJAX_SERVER:
+This folder contains the Arduino sketch which will:
+- Read data from analog inputs
+- Control digital outputs (intended to control solenoids and a rocket ignition system)
+- Respond to client REST requests used to control the Arduino
+	
+www:
+This folder must be placed in the root directory of the SD card used in the Yun.  It contains the HTML file for the website
+and related files
 		
 In order to access the website your computer must be connected to the same local network as the Arduino (either WiFi or ethernet).
 The default URL for the website is:	http://arduino.local/sd/
