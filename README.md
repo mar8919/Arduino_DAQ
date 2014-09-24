@@ -5,12 +5,14 @@ seperate parts.  The first is an Arduino sketch uploaded to the Yun's processor.
 user interface via a web browser.
 
 AJAX_SERVER:
+
 This folder contains the Arduino sketch which will:
 - Read data from analog inputs
 - Control digital outputs (intended to control solenoids and a rocket ignition system)
 - Respond to client REST requests used to control the Arduino
 	
 www:
+
 This folder must be placed in the root directory of the SD card used in the Yun.  It contains the HTML file for the website
 and related files
 		
