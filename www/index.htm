@@ -9,8 +9,8 @@
 	</style>
 	<script type="text/javascript">
 		var digital_write;
-		var digital_read;
-		var server;
+		var digital_read = [];
+		var server = [];
 	
 		//Set state of a pin
 		function write_request(Pin, Value)
@@ -30,8 +30,7 @@
 				var write_string = digital_write.responseText;
 				update_buttons(write_string);
 			}
-		}
-		
+		}		
 		
 		
 		//Get state of a pin
@@ -39,24 +38,12 @@
 		{
 			server = "/arduino/digital/" + Pin;
 			digital_read = new XMLHttpRequest();
-			//digital_read.onreadystatechange = read_ready();
 			digital_read.open("GET", server, false);
 			digital_read.send(null);
-			
-			//for async = false
 			var read_string = digital_read.responseText;
 			update_buttons(read_string);
 		}
 		
-		//Check if response is ready
-		function read_ready()
-		{
-			if ((digital_read.readyState == 4) && (digital_read.status == 200))
-			{
-				var read_string = digital_read.responseText;
-				update_buttons(read_string);
-			}
-		}
 		
 		//Update buttons after response from Arduino
 		function update_buttons(response)
@@ -85,6 +72,46 @@
 			read_request(7);
 			read_request(8);
 			read_request(13);
+		}
+		
+		//Request record change
+		function record_request()
+		{
+			server = "/arduino/record/";
+			record = new XMLHttpRequest();
+			record.onreadystatechange = function record_response()
+				{
+					if((record.readyState == 4) && (record.status == 200))
+					{
+						alert(record.responseText);
+					}
+				}
+			record.open("GET", server, true);
+			record.send(null);
+		}
+		
+		
+		//delete record file
+		function record_delete()
+		{
+			var line1 = "* * * * * * * CAUTION * * * * * * *\n";
+			var line2 = "You are about to clear the output file.\n";
+			var line3 = "Are you sure you wish to procede?";
+			var input = confirm(line1 + line2 + line3);
+			if(input == true)
+			{
+				server = "/arduino/clear/";
+				delete_request = new XMLHttpRequest();
+				delete_request.onreadystatechange = function delete_response()
+					{
+						if((delete_request.readyState == 4) && (delete_request.status == 200))
+						{
+							alert(delete_request.responseText);
+						}
+					}
+				delete_request.open("GET", server, true);
+				delete_request.send(null);
+			}
 		}
 	</script>
 </head>
@@ -123,33 +150,14 @@
 				/>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<button type="button"
-				onclick="read_request(13);">
-				Check State
-				</button>	
-			</td>
-			<td>
-				<button type="button"
-				onclick="read_request(7);">
-				Check State
-				</button>	
-			</td>
-			<td>
-				<button type="button"
-				onclick="read_request(8);">
-				Check State
-				</button>	
-			</td>
-		<tr>
 	</table>
 	
 	<br>
 	<button type="button"
-	onclick="check_states();">
-		Check States
+	onclick="record_request();">
+		Record
 	</button>
+	<br>
 	<br>
 	<a href="http://arduino.local/sd/output.csv" download="output.csv">
 		<img src="download.png"
@@ -157,5 +165,20 @@
 		onmouseout="this.src='download.png'"
 		>
 	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<button type="button"
+	onclick="record_delete();">
+		Clear Output File
+	</button>
 </body>
 </html>
