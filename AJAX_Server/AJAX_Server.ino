@@ -17,7 +17,6 @@ YunServer server;
 
 void setup() {
   // initialize communication:
-  Serial.begin(19200);
   Bridge.begin();
   server.listenOnLocalhost();
   server.begin();
@@ -35,8 +34,6 @@ void setup() {
   
   // initialize file
   FileSystem.begin();
-  
-  Serial.println("Sketch Initialized...");
 }
 
 
@@ -104,14 +101,9 @@ void read_inputs()
       output.println(dataOutput);
       
       int log_time = millis() - write_time;
-      Serial.println("Log time: " + String(log_time) );
       
       output.close();
             
-    }
-    else
-    {
-       Serial.println("Problem writing to SD");
     }
   }
 }
@@ -146,10 +138,6 @@ void process(YunClient client)
     clear_command(client);
     return; 
   }
-  else
-  {
-     Serial.println("Invalid Command: " + command);
-  }
 }
 
 
@@ -170,7 +158,6 @@ void digital_command(YunClient client)
   client.print(pin);
   client.print(",");
   client.println(value);
-  Serial.println("Pin " + String(pin) + " set to " + String(value));
 }
 
 
@@ -188,7 +175,6 @@ void record_command(YunClient client)
     record = true;
     //File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
     client.println("Recording");
-    Serial.println("Recording has begun...");
   }
 }
 
@@ -204,10 +190,6 @@ void clear_command(YunClient client)
     output.println("Time [ms],A0,A1,A2,A3,A4,A5");
     // close test file
     output.close();
-  }
-  else
-  {
-    Serial.println("Problem deleting output file");
   }
   client.println("Output Cleared");
 }
