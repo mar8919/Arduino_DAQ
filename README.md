@@ -1,4 +1,5 @@
 Arduino_DAQ
+Written By: Christopher Mar
 ===========
 The files in this repository are being used for a data aquisition system running on an Arduino Yun.  It contains two
 seperate parts.  The first is an Arduino sketch uploaded to the Yun's processor.  The second is an HTML website which displays a
