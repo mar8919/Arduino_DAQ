@@ -31,6 +31,7 @@ void setup() {
   pinMode(A3, INPUT);
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
+  pinMode(A6, INPUT);
   
   // initialize file
   FileSystem.begin();
@@ -78,6 +79,10 @@ void loop()
 }
 
 
+/*
+ * Used to record selected digital inputs to SD Card
+ */
+ 
 void read_inputs()
 {
   current_time = millis();
@@ -86,22 +91,23 @@ void read_inputs()
     File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
     if(output)
     {
-      write_time = millis();
+      String dataOutput = "";
+      for(int i = 0; i < 5; i++)
+      {
+        current_time = millis();
+             
+        dataOutput += String(current_time) + ",";
+        dataOutput += String(analogRead(A0)) + ",";
+        dataOutput += String(analogRead(A1)) + ",";
+        dataOutput += String(analogRead(A2)) + ",";
+        dataOutput += String(analogRead(A3)) + ",";
+        dataOutput += String(analogRead(A4)) + ",";
+        dataOutput += String(analogRead(A5)) + ",";
+        dataOutput += String(analogRead(A6)) + "\n";
+      }
+      //dataOutput += "END\n";
       
-      //String dataOutput = String(current_time) + "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," + String(analogRead(A2)) + "," + String(analogRead(A3)) + "," + String(analogRead(A4)) + "," + String(analogRead(A5));
-      ///*
-      String dataOutput = String(current_time) + ",";
-      dataOutput += String(analogRead(A0)) + ",";
-      dataOutput += String(analogRead(A1)) + ",";
-      dataOutput += String(analogRead(A2)) + ",";
-      dataOutput += String(analogRead(A3)) + ",";
-      dataOutput += String(analogRead(A4)) + ",";
-      dataOutput += String(analogRead(A5));
-      //*/
-      output.println(dataOutput);
-      
-      int log_time = millis() - write_time;
-      
+      output.print(dataOutput);  // Write to SD Card
       output.close();
             
     }
@@ -155,9 +161,8 @@ void digital_command(YunClient client)
     value = digitalRead(pin);
   }
   //server response
-  client.print(pin);
-  client.print(",");
-  client.println(value);
+  String response = String(pin) + "," + String(value);
+  client.print(response);
 }
 
 
@@ -187,7 +192,7 @@ void clear_command(YunClient client)
   
   if(output)
   {
-    output.println("Time [ms],A0,A1,A2,A3,A4,A5");
+    output.println("Time [ms],A0,A1,A2,A3,A4,A5,A6");
     // close test file
     output.close();
   }
