@@ -6,10 +6,6 @@
 		h1 {color:black;}
 		p {color:black;}
 		body {font-family:arial}
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-		}
 	</style>
 	<script type="text/javascript">
 		var digital_write;
@@ -73,9 +69,9 @@
 		
 		function check_states()
 		{
-			read_request(2);
-			read_request(3);
-			read_request(5);
+			read_request(7);
+			read_request(8);
+			read_request(13);
 		}
 		
 		//Request record change
@@ -128,38 +124,31 @@
 	</p>
 	<br>
 	
-	<table  style="width:600px">
+	<table>
 		<tr>
-			<th>CO2 to Fuel </th>
-			<th>Fuel to Manifold </th>
-			<th>Ignitor </th>
+			<td><b>Pin 13 </b></td>
+			<td><b>Pin 7 </b></td>
+			<td><b>Pin 8 </b></td>
 		</tr>
 		<tr>
 			<td>
-				<center>
-				<input type="hidden" name ="pin" value="1" id="pin2" />
-				<img src="off.png" id="image2"
-				onclick="write_request(2, document.getElementById('pin2').value);"
+				<input type="hidden" name ="pin" value="1" id="pin13" />
+				<img src="off.png" id="image13"
+				onclick="write_request(13, document.getElementById('pin13').value);"
 				/>
-				</center>
 			</td>
 			<td>
-				<center>
-				<input type="hidden" name ="pin" value="1" id="pin3" />
-				<img src="off.png" id="image3"
-				onclick="write_request(3, document.getElementById('pin3').value);"
+				<input type="hidden" name ="pin" value="1" id="pin7" />
+				<img src="off.png" id="image7"
+				onclick="write_request(7, document.getElementById('pin7').value);"
 				/>
-				</center>
 			</td>
 			<td>
-				<center>
-				<input type="hidden" name ="pin" value="1" id="pin5" />
-				<img src="off.png" id="image5"
-				onclick="write_request(5, document.getElementById('pin5').value);"
+				<input type="hidden" name ="pin" value="1" id="pin8" />
+				<img src="off.png" id="image8"
+				onclick="write_request(8, document.getElementById('pin8').value);"
 				/>
-				</center>
 			</td>
-			
 		</tr>
 	</table>
 	

@@ -3,8 +3,27 @@
 #include <YunServer.h>
 #include <YunClient.h>
 
+// Output Pin Definithions
 const int ledPin = 13; // the pin that the LED is attached to
+const int sol1 = 0;
+const int sol2 = 1;
+const int sol3 = 2;
+const int sol4 = 3;
+const int pyro_arm = 4;
+const int pyro_fire = 5;
+const int pyro_status = 6;
+const int pyro_test = 7;
+
+/*
+// Output Pind Definitions
+const int A9 = 9;
+const int A10 = 10;
+const int A11 = 12;
+*/
+
+// Parameters
 const int record_interval = 10;
+
 
 int incomingByte;      // a variable to read incoming serial data into
 int last_record = 0;
@@ -21,17 +40,28 @@ void setup() {
   server.listenOnLocalhost();
   server.begin();
   
-  // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(A0, INPUT);
-  pinMode(A1, INPUT);
-  pinMode(A2, INPUT);
-  pinMode(A3, INPUT);
-  pinMode(A4, INPUT);
-  pinMode(A5, INPUT);
-  pinMode(A6, INPUT);
+  // Output Initializations
+  //pinMode(sol1, OUTPUT);  // Pin 0 used by bridge
+  //pinMode(sol2, OUTPUT);  // Pin 1 used by bridge
+  pinMode(sol3, OUTPUT);
+  pinMode(sol4, OUTPUT);
+  pinMode(pyro_arm, OUTPUT);
+  pinMode(pyro_fire, OUTPUT);
+  pinMode(pyro_status, OUTPUT);
+  pinMode(pyro_test, OUTPUT);
+  
+  
+  // Input Initializations
+  pinMode(A0, INPUT);  // P1
+  pinMode(A1, INPUT);  // P2
+  pinMode(A2, INPUT);  // P3
+  pinMode(A3, INPUT);  // P4
+  pinMode(A4, INPUT);  // P5
+  pinMode(A5, INPUT);  // P6
+  pinMode(A11, INPUT); // P7
+  pinMode(A9, INPUT);  // NTC1
+  pinMode(A10, INPUT); // NTC2
+  
   
   // initialize file
   FileSystem.begin();
@@ -57,24 +87,6 @@ void loop()
     read_inputs();
   }
   
-  
-  /*
-  if (record)
-  {
-    //Only open file first for first record
-    if(file_closed)
-    {
-      File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
-    }
-    //read inputs and record data to file
-    read_inputs(output);
-  }
-  //close file if not recording and open
-  else if(file_closed == false)
-  {
-    output.close();
-  }
-  */
   
 }
 
@@ -103,9 +115,8 @@ void read_inputs()
         dataOutput += String(analogRead(A3)) + ",";
         dataOutput += String(analogRead(A4)) + ",";
         dataOutput += String(analogRead(A5)) + ",";
-        dataOutput += String(analogRead(A6)) + "\n";
+        dataOutput += String(analogRead(A11)) + "\n";
       }
-      //dataOutput += "END\n";
       
       output.print(dataOutput);  // Write to SD Card
       output.close();
@@ -126,7 +137,7 @@ void process(YunClient client)
   if(command == "stop")
   {
     //TODO:
-    //preset to turn off all solonoids (except release?)
+    //Perform a flush
     return;
   }
   if(command == "digital")
@@ -162,7 +173,7 @@ void digital_command(YunClient client)
   }
   //server response
   String response = String(pin) + "," + String(value);
-  client.print(response);
+  client.println(response);
 }
 
 
@@ -172,13 +183,11 @@ void record_command(YunClient client)
   if(record)
   {
     record = false;
-    //output.close();
     client.println("Done Recording");
   }
   else
   {
     record = true;
-    //File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
     client.println("Recording");
   }
 }
@@ -192,8 +201,7 @@ void clear_command(YunClient client)
   
   if(output)
   {
-    output.println("Time [ms],A0,A1,A2,A3,A4,A5,A6");
-    // close test file
+    output.println("Time [ms],P1,P2,P3,P4,P5,P6,P7");
     output.close();
   }
   client.println("Output Cleared");
