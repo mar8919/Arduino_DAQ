@@ -122,17 +122,23 @@
 
 <body onload = "check_states();">
 
-	<h1>Data Acquisition</h1>
+	<h1>Yun Data Acquisition</h1>
 	<p>
-		TODO: Add instructions here
+		<h4>Typical Steps:</h4>
+		1. Click <i>Clear Output File</i> if you with to clear the CSV file stored on the Yun<br>
+		2. Click <i>Record</i> when you are ready to begin acquiring data 
+			(NOTE: controls are functional even when not recording).<br>
+		3. Click <i>Record</i> again when you are done recording.<br>
+		3. Click <i>Download Output</i> to download the current CSV file from the Yun.<br>
 	</p>
-	<br>
 	
+	<h3>Solenoid Controls:</h3>
 	<table  style="width:600px">
 		<tr>
-			<th>CO2 to Fuel </th>
-			<th>Fuel to Manifold </th>
-			<th>Ignitor </th>
+			<th>CO2 to Fuel<br>(D2)</th>
+			<th>Fuel to Manifold<br>(D3)</th>
+			<th>Solenoid 1<br>(D8)</th>
+			<th>Solenoid 2<br>(D11)</th>
 		</tr>
 		<tr>
 			<td>
@@ -148,6 +154,51 @@
 				<input type="hidden" name ="pin" value="1" id="pin3" />
 				<img src="off.png" id="image3"
 				onclick="write_request(3, document.getElementById('pin3').value);"
+				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin8" />
+				<img src="off.png" id="image8"
+				onclick="write_request(8, document.getElementById('pin8').value);"
+				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin11" />
+				<img src="off.png" id="image11"
+				onclick="write_request(11, document.getElementById('pin11').value);"
+				/>
+				</center>
+			</td>
+			
+		</tr>
+	</table>
+	
+	<br>
+	<h3>Pyro Controls:</h3>
+	<table  style="width:450px">
+		<tr>
+			<th>Test<br>(D7)</th>
+			<th>Arm<br>(D4)</th>
+			<th>Fire<br>(D5)</th>
+		</tr>
+		<tr>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin7" />
+				<img src="off.png" id="image7"
+				onclick="write_request(7, document.getElementById('pin7').value);"
+				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin4" />
+				<img src="off.png" id="image3"
+				onclick="write_request(4, document.getElementById('pin4').value);"
 				/>
 				</center>
 			</td>
@@ -175,13 +226,6 @@
 		onmouseover="this.src='download_over.png'"
 		onmouseout="this.src='download.png'">
 	</a>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
 	<br>
 	<br>
 	<br>

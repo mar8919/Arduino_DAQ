@@ -5,8 +5,8 @@
 
 // Output Pin Definithions
 const int ledPin = 13; // the pin that the LED is attached to
-const int sol1 = 0;
-const int sol2 = 1;
+const int sol1 = 8;
+const int sol2 = 11;
 const int sol3 = 2;
 const int sol4 = 3;
 const int pyro_arm = 4;
@@ -41,13 +41,13 @@ void setup() {
   server.begin();
   
   // Output Initializations
-  //pinMode(sol1, OUTPUT);  // Pin 0 used by bridge
-  //pinMode(sol2, OUTPUT);  // Pin 1 used by bridge
+  pinMode(sol1, OUTPUT);  // Pin 0 used by bridge, using pin 8
+  pinMode(sol2, OUTPUT);  // Pin 1 used by bridge, using pin 11
   pinMode(sol3, OUTPUT);
   pinMode(sol4, OUTPUT);
   pinMode(pyro_arm, OUTPUT);
   pinMode(pyro_fire, OUTPUT);
-  pinMode(pyro_status, OUTPUT);
+  pinMode(pyro_status, INPUT);
   pinMode(pyro_test, OUTPUT);
   
   
@@ -183,7 +183,7 @@ void record_command(YunClient client)
   if(record)
   {
     record = false;
-    client.println("Done Recording");
+    client.println("Stopped Recording");
   }
   else
   {
