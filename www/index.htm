@@ -19,6 +19,15 @@
 		//Set state of a pin
 		function write_request(Pin, Value)
 		{
+			if(Pin == 3)	//Check changing Fuel to manifold
+			{
+				if(Value == 1 && document.getElementById('pin2').value == 1)
+				//if command is to turn on Fuel and CO2 to Fuel is already off
+				{
+					alert("CO2 to Fuel must be on before Fuel to manifold can be opened");
+					return;
+				}
+			}
 			server = "/arduino/digital/" + Pin + "/" + Value;
 			digital_write = new XMLHttpRequest();
 			digital_write.onreadystatechange = write_ready;
@@ -69,6 +78,12 @@
 			}
 			document.getElementById(PinId).value = PinState;
 			document.getElementById(ImageId).src = button;
+			// Check if Fuel to Manifold (D3/Sol4) has been opened
+			if(PinNum == 3 && PinState == "0")
+			{
+				var NOS_On = "8,1";
+				update_buttons(NOS_On);
+			}
 		}
 		
 		function check_states()
@@ -135,10 +150,10 @@
 	<h3>Solenoid Controls:</h3>
 	<table  style="width:600px">
 		<tr>
-			<th>CO2 to Fuel<br>(D2)</th>
-			<th>Fuel to Manifold<br>(D3)</th>
-			<th>Solenoid 1<br>(D8)</th>
-			<th>Solenoid 2<br>(D11)</th>
+			<th>CO2 to Fuel<br>(D2/Sol3)</th>
+			<th>Fuel to Manifold<br>(D3/Sol4)</th>
+			<th>Ox Flow<br>(D8/Sol1)</th>
+			<th>Ox Purge 2<br>(D11/Sol2)</th>
 		</tr>
 		<tr>
 			<td>
@@ -197,7 +212,7 @@
 			<td>
 				<center>
 				<input type="hidden" name ="pin" value="1" id="pin4" />
-				<img src="off.png" id="image3"
+				<img src="off.png" id="image4"
 				onclick="write_request(4, document.getElementById('pin4').value);"
 				/>
 				</center>

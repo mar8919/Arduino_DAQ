@@ -71,6 +71,25 @@ void setup() {
 
 void loop()
 {
+  // TEST PYRO STATUS, REMOVE AFTER TESTING
+  /*
+  byte my_pyro_stat = digitalRead(pyro_status);
+  if(my_pyro_stat)
+  {
+    digitalWrite(sol1, HIGH);
+    digitalWrite(sol2, HIGH);
+    digitalWrite(sol3, HIGH);
+    digitalWrite(sol4, HIGH);
+  }
+  else
+  {
+    digitalWrite(sol1, LOW);
+    digitalWrite(sol2, LOW);
+    digitalWrite(sol3, LOW);
+    digitalWrite(sol4, LOW);
+  }
+  */
+  
   // Get clients coming from server
   YunClient client = server.accept();
   
@@ -166,6 +185,11 @@ void digital_command(YunClient client)
   {
     value = client.parseInt();
     digitalWrite(pin, value);
+    if(pin == sol4)
+    {
+      delay(500);  //Delay .5 seconds before opening Ox flow
+      digitalWrite(sol1, HIGH);  //open Ox Flow
+    }
   }
   else
   {
