@@ -34,10 +34,10 @@
 			{
 				update_buttons("2, 0");	//CO2 to Fuel
 				update_buttons("3, 0"); //Fuel to Manifold
-				update_buttons("4, 0"); //Ox Flow
-				update_buttons("5, 0"); //Ox Purge
-				update_buttons("6, 0"); //Pyro Arm
-				update_buttons("7, 0"); //Pyro Fire
+				update_buttons("8, 0"); //Ox Flow
+				update_buttons("11, 0"); //Ox Purge
+				update_buttons("4, 0"); //Pyro Arm
+				update_buttons("5, 0"); //Pyro Fire
 				document.getElementById("stop_status").innerHTML = "";
 			}
 		}
@@ -187,10 +187,10 @@
 	<h3>Solenoid Controls:</h3>
 	<table  style="width:600px">
 		<tr>
-			<th>CO2 to Fuel<br>(D2/Sol1)</th>
-			<th>Fuel to Manifold<br>(D3/Sol2)</th>
-			<th>Ox Flow<br>(D4/Sol3)</th>
-			<th>Ox Purge 2<br>(D5/Sol4)</th>
+			<th>CO2 to Fuel<br>(D2/Sol3)</th>
+			<th>Fuel to Manifold<br>(D3/Sol4)</th>
+			<th>Ox Flow<br>(D8/Sol1)</th>
+			<th>Ox Purge 2<br>(D11/Sol2)</th>
 		</tr>
 		<tr>
 			<td>
@@ -211,17 +211,17 @@
 			</td>
 			<td>
 				<center>
-				<input type="hidden" name ="pin" value="1" id="pin4" />
-				<img src="off.png" id="image4"
-				onclick="write_request(4, document.getElementById('pin4').value);"
+				<input type="hidden" name ="pin" value="1" id="pin8" />
+				<img src="off.png" id="image8"
+				onclick="write_request(8, document.getElementById('pin8').value);"
 				/>
 				</center>
 			</td>
 			<td>
 				<center>
-				<input type="hidden" name ="pin" value="1" id="pin5" />
-				<img src="off.png" id="image5"
-				onclick="write_request(5, document.getElementById('pin5').value);"
+				<input type="hidden" name ="pin" value="1" id="pin11" />
+				<img src="off.png" id="image11"
+				onclick="write_request(11, document.getElementById('pin11').value);"
 				/>
 				</center>
 			</td>
@@ -233,32 +233,32 @@
 	<h3>Pyro Controls:</h3>
 	<table  style="width:450px">
 		<tr>
-			<th>Test<br>(D9)</th>
-			<th>Arm<br>(D6)</th>
-			<th>Fire<br>(D7)</th>
+			<th>Test<br>(D7)</th>
+			<th>Arm<br>(D4)</th>
+			<th>Fire<br>(D5)</th>
 		</tr>
 		<tr>
-			<td>
-				<center>
-				<input type="hidden" name ="pin" value="1" id="pin9" />
-				<img src="off.png" id="image9"
-				onclick="write_request(9, document.getElementById('pin9').value);"
-				/>
-				</center>
-			</td>
-			<td>
-				<center>
-				<input type="hidden" name ="pin" value="1" id="pin6" />
-				<img src="off.png" id="image6"
-				onclick="write_request(6, document.getElementById('pin6').value);"
-				/>
-				</center>
-			</td>
 			<td>
 				<center>
 				<input type="hidden" name ="pin" value="1" id="pin7" />
 				<img src="off.png" id="image7"
 				onclick="write_request(7, document.getElementById('pin7').value);"
+				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin4" />
+				<img src="off.png" id="image4"
+				onclick="write_request(4, document.getElementById('pin4').value);"
+				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<input type="hidden" name ="pin" value="1" id="pin5" />
+				<img src="off.png" id="image5"
+				onclick="write_request(5, document.getElementById('pin5').value);"
 				/>
 				</center>
 			</td>

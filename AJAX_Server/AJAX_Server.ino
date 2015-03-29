@@ -5,14 +5,14 @@
 
 // Output Pin Definithions
 const int ledPin = 13; // the pin that the LED is attached to
-const int sol1 = 8;
-const int sol2 = 11;
-const int sol3 = 2;
-const int sol4 = 3;
-const int pyro_arm = 4;
-const int pyro_fire = 5;
-const int pyro_status = 6;
-const int pyro_test = 7;
+const int sol1 = 2;
+const int sol2 = 3;
+const int sol3 = 4;
+const int sol4 = 5;
+const int pyro_arm = 6;
+const int pyro_fire = 7;
+const int pyro_status = 8;
+const int pyro_test = 9;
 
 /*
 // Output Pind Definitions
@@ -52,6 +52,7 @@ void setup() {
   
   
   // Input Initializations
+  /*
   pinMode(A0, INPUT);  // P1
   pinMode(A1, INPUT);  // P2
   pinMode(A2, INPUT);  // P3
@@ -61,6 +62,7 @@ void setup() {
   pinMode(A11, INPUT); // P7
   pinMode(A9, INPUT);  // NTC1
   pinMode(A10, INPUT); // NTC2
+  */
   
   
   // initialize file
@@ -155,8 +157,12 @@ void process(YunClient client)
   
   if(command == "stop")
   {
-    //TODO:
-    //Perform a flush
+    stop_command(client);
+    return;
+  }
+  if(command == "burn")
+  {
+    burn_command(client);
     return;
   }
   if(command == "digital")
@@ -177,6 +183,26 @@ void process(YunClient client)
 }
 
 
+void stop_command(YunClient client)
+{
+  digitalWrite(sol1, LOW);
+  digitalWrite(sol2, LOW);
+  digitalWrite(sol3, LOW);
+  digitalWrite(sol4, LOW);
+  digitalWrite(pyro_fire, LOW);
+  digitalWrite(pyro_arm, LOW);
+  client.println("Ok");
+}
+
+void burn_command(YunClient client)
+{
+  digitalWrite(sol1, HIGH);  //open Ox Flow
+  delay(500);  //Delay .5 seconds before opening Ox flow
+  digitalWrite(sol1, HIGH);  //open Ox Flow
+  client.println("Ok");
+}
+  
+
 void digital_command(YunClient client)
 {
   int pin = client.parseInt();
@@ -185,11 +211,6 @@ void digital_command(YunClient client)
   {
     value = client.parseInt();
     digitalWrite(pin, value);
-    if(pin == sol4)
-    {
-      delay(500);  //Delay .5 seconds before opening Ox flow
-      digitalWrite(sol1, HIGH);  //open Ox Flow
-    }
   }
   else
   {
