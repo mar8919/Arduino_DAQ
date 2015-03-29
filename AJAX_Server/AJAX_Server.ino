@@ -52,7 +52,6 @@ void setup() {
   
   
   // Input Initializations
-  /*
   pinMode(A0, INPUT);  // P1
   pinMode(A1, INPUT);  // P2
   pinMode(A2, INPUT);  // P3
@@ -60,9 +59,7 @@ void setup() {
   pinMode(A4, INPUT);  // P5
   pinMode(A5, INPUT);  // P6
   pinMode(A11, INPUT); // P7
-  pinMode(A9, INPUT);  // NTC1
-  pinMode(A10, INPUT); // NTC2
-  */
+  pinMode(A10, INPUT); // NTC1
   
   
   // initialize file
@@ -70,28 +67,8 @@ void setup() {
 }
 
 
-
 void loop()
 {
-  // TEST PYRO STATUS, REMOVE AFTER TESTING
-  /*
-  byte my_pyro_stat = digitalRead(pyro_status);
-  if(my_pyro_stat)
-  {
-    digitalWrite(sol1, HIGH);
-    digitalWrite(sol2, HIGH);
-    digitalWrite(sol3, HIGH);
-    digitalWrite(sol4, HIGH);
-  }
-  else
-  {
-    digitalWrite(sol1, LOW);
-    digitalWrite(sol2, LOW);
-    digitalWrite(sol3, LOW);
-    digitalWrite(sol4, LOW);
-  }
-  */
-  
   // Get clients coming from server
   YunClient client = server.accept();
   
@@ -107,15 +84,12 @@ void loop()
   {
     read_inputs();
   }
-  
-  
 }
 
 
 /*
  * Used to record selected digital inputs to SD Card
  */
- 
 void read_inputs()
 {
   current_time = millis();
@@ -148,106 +122,7 @@ void read_inputs()
     
 
 
-void process(YunClient client)
-{
-  String command = client.readStringUntil('/');  // Parse string for first section
-  // remove newlines
-  command.replace("\n", "");
-  command.replace("\r", "");
-  
-  if(command == "stop")
-  {
-    stop_command(client);
-    return;
-  }
-  if(command == "burn")
-  {
-    burn_command(client);
-    return;
-  }
-  if(command == "digital")
-  {
-    digital_command(client);
-    return;
-  }
-  if(command == "record")
-  {
-    record_command(client);
-    return;
-  }
-  if(command == "clear")
-  {
-    clear_command(client);
-    return; 
-  }
-}
 
 
-void stop_command(YunClient client)
-{
-  digitalWrite(sol1, LOW);
-  digitalWrite(sol2, LOW);
-  digitalWrite(sol3, LOW);
-  digitalWrite(sol4, LOW);
-  digitalWrite(pyro_fire, LOW);
-  digitalWrite(pyro_arm, LOW);
-  client.println("Ok");
-}
-
-void burn_command(YunClient client)
-{
-  digitalWrite(sol1, HIGH);  //open Ox Flow
-  delay(500);  //Delay .5 seconds before opening Ox flow
-  digitalWrite(sol1, HIGH);  //open Ox Flow
-  client.println("Ok");
-}
-  
-
-void digital_command(YunClient client)
-{
-  int pin = client.parseInt();
-  int value;
-  if (client.read() == '/')
-  {
-    value = client.parseInt();
-    digitalWrite(pin, value);
-  }
-  else
-  {
-    value = digitalRead(pin);
-  }
-  //server response
-  String response = String(pin) + "," + String(value);
-  client.println(response);
-}
 
 
-// Changes record state and opens/closes file
-void record_command(YunClient client)
-{
-  if(record)
-  {
-    record = false;
-    client.println("Stopped Recording");
-  }
-  else
-  {
-    record = true;
-    client.println("Recording");
-  }
-}
-
-//Clear output file
-void clear_command(YunClient client)
-{
-  FileSystem.remove("/mnt/sd/arduino/www/output.csv");
-  
-  File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_WRITE);
-  
-  if(output)
-  {
-    output.println("Time [ms],P1,P2,P3,P4,P5,P6,P7");
-    output.close();
-  }
-  client.println("Output Cleared");
-}
