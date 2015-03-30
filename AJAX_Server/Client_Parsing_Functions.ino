@@ -79,13 +79,13 @@ void record_command(YunClient client)
   if(record)
   {
     record = false;
-    client.println("Stopped Recording");
+    client.println("Data Recording Stopped");
   }
   else
   {
     record = true;
     calibrate_ADC();
-    client.println("Load Cell Tared.  Recording");
+    client.println("Load cell has been tared.\nNow Recording Data");
   }
 }
 
@@ -99,7 +99,7 @@ void clear_command(YunClient client)
   
   if(output)
   {
-    output.println("Time [ms],P1,P2,P3,P4,P5,P6,P7");
+    output.println("Time [ms],P1,P2,P3,P4,P5,P6,P7,Force [lbs]");
     output.close();
   }
   client.println("Output Cleared");

@@ -97,8 +97,6 @@ void loop()
   {
     read_inputs();
   }
-  
-  read_ADC();
 }
 
 
@@ -125,7 +123,8 @@ void read_inputs()
         dataOutput += String(analogRead(A3)) + ",";
         dataOutput += String(analogRead(A4)) + ",";
         dataOutput += String(analogRead(A5)) + ",";
-        dataOutput += String(analogRead(A11)) + "\n";
+        dataOutput += String(analogRead(A11)) + ",";
+        dataOutput += String(read_ADC()) + "\n";
       }
       
       output.print(dataOutput);  // Write to SD Card
