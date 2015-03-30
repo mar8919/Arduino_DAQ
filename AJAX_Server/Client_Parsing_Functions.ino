@@ -84,7 +84,8 @@ void record_command(YunClient client)
   else
   {
     record = true;
-    client.println("Recording");
+    calibrate_ADC();
+    client.println("Load Cell Tared.  Recording");
   }
 }
 

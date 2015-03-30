@@ -2,6 +2,7 @@
 #include <Bridge.h>
 #include <YunServer.h>
 #include <YunClient.h>
+#include <SPI.h>
 
 // Output Pin Definithions
 const int ledPin = 13; // the pin that the LED is attached to
@@ -39,6 +40,18 @@ void setup() {
   Bridge.begin();
   server.listenOnLocalhost();
   server.begin();
+  
+  // start the SPI library:
+  delay(1);
+  SPI.begin();
+  SPI.setDataMode(SPI_MODE3);
+  SPI.setBitOrder(MSBFIRST);
+  
+  // Start serial for debug
+  Serial.begin(115200);
+  
+  // Run ADC initialization code
+  ADC_Setup();
   
   // Output Initializations
   pinMode(sol1, OUTPUT);  // Pin 0 used by bridge, using pin 8
@@ -84,6 +97,8 @@ void loop()
   {
     read_inputs();
   }
+  
+  read_ADC();
 }
 
 
