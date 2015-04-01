@@ -47,9 +47,9 @@ void stop_command(YunClient client)
 
 void burn_command(YunClient client)
 {
-  digitalWrite(sol1, HIGH);  //open Ox Flow
-  delay(500);  //Delay .5 seconds before opening Ox flow
-  digitalWrite(sol1, HIGH);  //open Ox Flow
+  digitalWrite(sol2, HIGH);  //open Ox Flow
+  delay(200);  //Delay .2 seconds before opening Ox flow
+  digitalWrite(sol3, HIGH);  //open Ox Flow
   client.println("Ok");
 }
   

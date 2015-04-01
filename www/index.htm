@@ -60,11 +60,10 @@
 		
 		function burn_recieved()
 		{
-			// Check if Fuel to Manifold (D3/Sol4) has been opened
 			if((burn_response.readyState == 4) && (burn_response.status == 200))
 			{
 				update_buttons("3,1");	//Turn Fuel to Manifold on
-				update_buttons("8,1");	//Turn Ox Flow on
+				update_buttons("4,1");	//Turn Ox Flow on
 			}
 		}
 		
@@ -127,7 +126,11 @@
 		{
 			read_request(2);
 			read_request(3);
+			read_request(4);
 			read_request(5);
+			read_request(6);
+			read_request(7);
+			read_request(9);
 		}
 		
 		//Request record change
@@ -191,6 +194,7 @@
 			<th>Fuel to Manifold<br>(D3/Sol2)</th>
 			<th>Ox Flow<br>(D4/Sol3)</th>
 			<th>Ox Purge 2<br>(D5/Sol4)</th>
+			<th>Burn<br>(Flows Fuel and Ox)</th>
 		</tr>
 		<tr>
 			<td>
@@ -223,6 +227,14 @@
 				<img src="off.png" id="image5"
 				onclick="write_request(5, document.getElementById('pin5').value);"
 				/>
+				</center>
+			</td>
+			<td>
+				<center>
+				<button type="button"
+				onclick="burn_request();">
+					Burn
+				</button>
 				</center>
 			</td>
 			
