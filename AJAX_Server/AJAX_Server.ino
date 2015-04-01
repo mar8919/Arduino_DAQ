@@ -46,9 +46,10 @@ void setup() {
   SPI.begin();
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
+  SPI.setClockDivider(SPI_CLOCK_DIV4);
   
   // Start serial for debug
-  Serial.begin(115200);
+  //Serial.begin(115200);
   
   // Run ADC initialization code
   ADC_Setup();
@@ -105,6 +106,7 @@ void loop()
  */
 void read_inputs()
 {
+  //Serial.println("  Reading inputs");
   current_time = millis();
   if( (current_time - last_record) > record_interval)
   {
@@ -123,8 +125,10 @@ void read_inputs()
         dataOutput += String(analogRead(A3)) + ",";
         dataOutput += String(analogRead(A4)) + ",";
         dataOutput += String(analogRead(A5)) + ",";
-        dataOutput += String(analogRead(A11)) + ",";
-        dataOutput += String(read_ADC()) + "\n";
+        //dataOutput += String(analogRead(A11)) + ",";
+        dataOutput += String(analogRead(A11)) + "\n";
+        //dataOutput += String(read_ADC()) + "\n";
+        
       }
       
       output.print(dataOutput);  // Write to SD Card

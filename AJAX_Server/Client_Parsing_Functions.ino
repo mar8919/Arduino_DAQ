@@ -4,7 +4,7 @@ void process(YunClient client)
   // remove newlines
   command.replace("\n", "");
   command.replace("\r", "");
-  
+  //Serial.println(command);
   if(command == "stop")
   {
     stop_command(client);

@@ -133,7 +133,7 @@ void calibrate_ADC()
   delay(200);
 }
 
-
+/*
 void check_settings()
 {
   Serial.println("Config:");
@@ -166,3 +166,4 @@ void check_settings()
     }
   }
 }
+*/
