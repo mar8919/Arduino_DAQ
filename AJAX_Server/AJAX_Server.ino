@@ -114,7 +114,7 @@ void read_inputs()
     if(output)
     {
       String dataOutput = "";
-      for(int i = 0; i < 5; i++)
+      for(int i = 0; i < 4; i++)
       {
         current_time = millis();
              
@@ -125,9 +125,9 @@ void read_inputs()
         dataOutput += String(analogRead(A3)) + ",";
         dataOutput += String(analogRead(A4)) + ",";
         dataOutput += String(analogRead(A5)) + ",";
-        //dataOutput += String(analogRead(A11)) + ",";
-        dataOutput += String(analogRead(A11)) + "\n";
-        //dataOutput += String(read_ADC()) + "\n";
+        dataOutput += String(analogRead(A11)) + ",";
+        //dataOutput += String(analogRead(A11)) + "\n";
+        dataOutput += String(read_ADC()) + "\n";
         
       }
       
