@@ -19,7 +19,9 @@ const byte CONFIG[3] = {0b10000000, 0b00000001, 0b00010111};  // Test Configurat
 const byte WRITE_MODE  = 0b00001000;
 //const byte MODE[3] = {0b00101000, 0b00000100, 0b01010000};    // Test Mode
 
-const byte MODE[3] = {0b00001000, 0b00000100, 0b01010000};    // Modified Mode: Continuous Conversion Mode
+
+const byte MODE[3] = {0b00001000, 0b00000100, 0b00000101};    // Modified Mode: Continuous Conversion Mode, Filter Word of 5
+//const byte MODE[3] = {0b00001000, 0b00000100, 0b01010000};    // Modified Mode: Continuous Conversion Mode, Filter Word of 80
 //const byte MODE[3] = {0b00001000, 0b00000111, 0xFF};    // Modified Mode: Continuous Conversion Mode and Filter Word of 1023
 
 
