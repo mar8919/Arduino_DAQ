@@ -114,7 +114,7 @@ void read_inputs()
     if(output)
     {
       String dataOutput = "";
-      for(int i = 0; i < 4; i++)
+      for(int i = 0; i < 5; i++)
       {
         current_time = millis();
              
