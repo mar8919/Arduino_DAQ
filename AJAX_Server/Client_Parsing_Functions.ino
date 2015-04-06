@@ -51,6 +51,7 @@ void burn_command(YunClient client)
   delay(200);  //Delay .2 seconds before opening Ox flow
   digitalWrite(sol3, HIGH);  //open Ox Flow
   client.println("Ok");
+  event_log += String(millis() - record_start_time) + ",Burn\n";
 }
   
 
@@ -70,6 +71,12 @@ void digital_command(YunClient client)
   //server response
   String response = String(pin) + "," + String(value);
   client.println(response);
+  
+  // Add to event log if pin turned on
+  if(value == 1)
+  {
+    event_log += String(millis() - record_start_time) + ",Pin " + String(pin) + " on\n";
+  }
 }
 
 
@@ -79,12 +86,22 @@ void record_command(YunClient client)
   if(record)
   {
     record = false;
+    
+    File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
+    if(output)
+    {
+      event_log = "\nTime [ms],Event\n" + event_log + "\n";
+      output.print(event_log);  // Write to SD Card
+      output.close();
+    }
+    event_log = "";   // Clear event log
     client.println("Data Recording Stopped");
   }
   else
   {
     record = true;
     calibrate_ADC();
+    record_start_time = millis();
     client.println("Load cell has been tared.\nNow Recording Data");
   }
 }
