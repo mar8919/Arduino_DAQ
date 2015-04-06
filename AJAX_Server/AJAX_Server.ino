@@ -33,6 +33,14 @@ unsigned long write_time;
 boolean record = false;
 boolean file_closed = true;
 
+
+//Recording Variables
+unsigned long rTimeStamp, nTimeStamp;
+int rA0, rA1, rA2, rA3, rA4, rA5, rA11;
+int nA0, nA1, nA2, nA3, nA4, nA5, nA11;
+float rLoad, nLoad;
+
+
 YunServer server;
 
 void setup() {
@@ -114,23 +122,46 @@ void read_inputs()
     if(output)
     {
       String dataOutput = "";
-      for(int i = 0; i < 4; i++)
+      for(int i = 0; i < 10; i++)
       {
-        current_time = millis();
-             
-        dataOutput += String(current_time) + ",";
-        dataOutput += String(analogRead(A0)) + ",";
-        dataOutput += String(analogRead(A1)) + ",";
-        dataOutput += String(analogRead(A2)) + ",";
-        dataOutput += String(analogRead(A3)) + ",";
-        dataOutput += String(analogRead(A4)) + ",";
-        dataOutput += String(analogRead(A5)) + ",";
-        dataOutput += String(analogRead(A11)) + ",";
-        //dataOutput += String(analogRead(A11)) + "\n";
-        dataOutput += String(read_ADC()) + "\n";
+        // Get New Readings
+        nTimeStamp = millis();
+        nA0 = analogRead(A0);
+        nA1 = analogRead(A1);
+        nA2  = analogRead(A2);
+        nA3 = analogRead(A3);
+        nA4 = analogRead(A4);
+        nA5 = analogRead(A5);
+        nA11 = analogRead(A11);
+        nLoad = read_ADC();
+        
+        
+        // Put differences into strings
+        dataOutput += String(nTimeStamp - rTimeStamp) + ",";
+        dataOutput += String(nA0 - rA0) + ",";
+        dataOutput += String(nA1 - rA1) + ",";
+        dataOutput += String(nA2 - rA2) + ",";
+        dataOutput += String(nA3 - rA3) + ",";
+        dataOutput += String(nA4 - rA4) + ",";
+        dataOutput += String(nA5 - rA5) + ",";
+        dataOutput += String(nA11 - rA11) + ",";
+        dataOutput += String(nLoad - rLoad) + "\n";
+        
+        
+        // Update Previous Values
+        rTimeStamp = nTimeStamp;
+        rA0 = nA0;
+        rA1 = nA1;
+        rA2 = nA2;
+        rA3 = nA3;
+        rA4 = nA4;
+        rA5 = nA5;
+        rA11 = nA11;
+        rLoad = nLoad;
         
       }
       
+      current_time = millis();
       output.print(dataOutput);  // Write to SD Card
       output.close();
             

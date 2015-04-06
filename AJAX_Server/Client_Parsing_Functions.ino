@@ -85,6 +85,37 @@ void record_command(YunClient client)
   {
     record = true;
     calibrate_ADC();
+    
+    File output = FileSystem.open("/mnt/sd/arduino/www/output.csv", FILE_APPEND);
+    if(output)
+    {
+      // Read initial values
+      rTimeStamp = millis();
+      rA0 = analogRead(A0);
+      rA1 = analogRead(A1);
+      rA2  = analogRead(A2);
+      rA3 = analogRead(A3);
+      rA4 = analogRead(A4);
+      rA5 = analogRead(A5);
+      rA11 = analogRead(A11);
+      rLoad = read_ADC();
+      
+      // Put initial values in string
+      String dataOutput = "New Record\n0,";           // Time starts at 0 for each new recording
+      dataOutput += String(rA0) + ",";
+      dataOutput += String(rA1) + ",";
+      dataOutput += String(rA2) + ",";
+      dataOutput += String(rA3) + ",";
+      dataOutput += String(rA4) + ",";
+      dataOutput += String(rA5) + ",";
+      dataOutput += String(rA11) + ",";
+      dataOutput += String(rLoad) + "\n";
+      
+      // Write to SD Card
+      output.print(dataOutput);
+      output.close();
+    }
+    
     client.println("Load cell has been tared.\nNow Recording Data");
   }
 }
