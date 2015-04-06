@@ -42,6 +42,7 @@ void stop_command(YunClient client)
   digitalWrite(pyro_fire, LOW);
   digitalWrite(pyro_arm, LOW);
   client.println("Ok");
+  event_log += String(millis() - record_start_time) + ",Stop\n";
 }
 
 
@@ -76,6 +77,10 @@ void digital_command(YunClient client)
   if(value == 1)
   {
     event_log += String(millis() - record_start_time) + ",Pin " + String(pin) + " on\n";
+  }
+  else
+  {
+    event_log += String(millis() - record_start_time) + ",Pin " + String(pin) + " off\n";
   }
 }
 
