@@ -38,7 +38,7 @@ boolean file_closed = true;
 unsigned long rTimeStamp, nTimeStamp;
 int rA0, rA1, rA2, rA3, rA4, rA5, rA11;
 int nA0, nA1, nA2, nA3, nA4, nA5, nA11;
-float rLoad, nLoad;
+long rLoad, nLoad;
 
 
 YunServer server;
@@ -122,7 +122,7 @@ void read_inputs()
     if(output)
     {
       String dataOutput = "";
-      for(int i = 0; i < 10; i++)
+      for(int i = 0; i < 5; i++)
       {
         // Get New Readings
         nTimeStamp = millis();
@@ -133,7 +133,8 @@ void read_inputs()
         nA4 = analogRead(A4);
         nA5 = analogRead(A5);
         nA11 = analogRead(A11);
-        nLoad = read_ADC();
+        //nLoad = read_ADC();
+        nLoad = 0;
         
         
         // Put differences into strings
@@ -163,6 +164,13 @@ void read_inputs()
       
       current_time = millis();
       output.print(dataOutput);  // Write to SD Card
+      
+      /*
+      int space = dataOutput.length();
+      String space_used = String(space) + " Bytes in write\n";
+      output.print(space_used);  // Write to SD Card
+      */
+      
       output.close();
             
     }

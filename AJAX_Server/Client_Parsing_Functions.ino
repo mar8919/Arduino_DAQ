@@ -101,7 +101,7 @@ void record_command(YunClient client)
       rLoad = read_ADC();
       
       // Put initial values in string
-      String dataOutput = "New Record\n0,";           // Time starts at 0 for each new recording
+      String dataOutput = "Start\n0,";           // Time starts at 0 for each new recording
       dataOutput += String(rA0) + ",";
       dataOutput += String(rA1) + ",";
       dataOutput += String(rA2) + ",";

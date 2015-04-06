@@ -34,9 +34,16 @@ const byte READ_STATUS = 0b01000000;
 //Used to hold bytes of input
 byte in[3];
 long output;
-float voltage, weight;
 
-float read_ADC()
+float ADC_output_to_weight(long raw)
+{
+  float voltage = (raw * (3.75 / 8388607.0 ) - 3.75) * (1000 / GAIN);
+  float weight = voltage * 151.5;
+  return weight;
+}
+  
+
+long read_ADC()
 {
   boolean data_rdy = ADC_ready();
   // Busy wait for ADC
@@ -54,8 +61,7 @@ float read_ADC()
     output = (output << 8) + SPI.transfer(READ_ONLY);  //Read in 3 bytes
   }
   
-  voltage = (output * (3.75 / 8388607.0 ) - 3.75) * (1000 / GAIN);
-  weight = voltage * 151.5;
+  
   
   //Debug serial output
   /*
@@ -65,7 +71,7 @@ float read_ADC()
   */
   
   //Serial.println( String(weight) + " lbs");
-  return weight;
+  return output;
 }
 
 
