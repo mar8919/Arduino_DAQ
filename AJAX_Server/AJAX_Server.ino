@@ -15,6 +15,7 @@ const int pyro_fire = 7;
 const int pyro_status = 8;
 const int pyro_test = 9;
 
+
 /*
 // Output Pind Definitions
 const int A9 = 9;
@@ -120,15 +121,25 @@ void read_inputs()
         current_time = millis();
              
         dataOutput += String(current_time - record_start_time) + ",";
+        //
+        dataOutput += String(analogRead(A0)) + ",";
+        dataOutput += String(analogRead(A1)) + ",";
+        dataOutput += String(analogRead(A2)) + ",";
+        dataOutput += String(analogRead(A3)) + ",";
+        dataOutput += String(analogRead(A4)) + ",";
+        dataOutput += String(analogRead(A5)) + ",";
+        dataOutput += String(analogRead(A11)) + ",";
+        
+        /*
         dataOutput += String(analogRead(A0) * 1.1358 - 132.66) + ",";
-        //dataOutput += String(analogRead(A0)) + ",";
         dataOutput += String(analogRead(A1) * 1.1358 - 132.66) + ",";
         dataOutput += String(analogRead(A2) * 1.1358 - 132.66) + ",";
         dataOutput += String(analogRead(A3) * 1.1358 - 132.66) + ",";
         dataOutput += String(analogRead(A4) * 1.1358 - 132.66) + ",";
         dataOutput += String(analogRead(A5) * 1.1358 - 132.66) + ",";
         dataOutput += String(analogRead(A11) * 1.1358 - 132.66) + ",";
-        //dataOutput += String(analogRead(A11)) + "\n";
+        */
+        
         dataOutput += String(read_ADC()) + "\n";
         
       }
